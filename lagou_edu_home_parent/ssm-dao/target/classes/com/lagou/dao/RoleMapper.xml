@@ -43,6 +43,11 @@
     <resultMap id="ResourceResultMap" type="com.lagou.domain.ResourceCategory">
         <id property="id" column="id"></id>
         <result property="name" column="name"></result>
+        <result property="sort" column="sort"></result>
+        <result property="createdTime" column="created_time"></result>
+        <result property="updatedTime" column="updated_time"></result>
+        <result property="createdBy" column="created_by"></result>
+        <result property="updatedBy" column="updated_by"></result>
 
         <collection property="resourceList" ofType="com.lagou.domain.Resource">
             <id property="id" column="id"></id>
