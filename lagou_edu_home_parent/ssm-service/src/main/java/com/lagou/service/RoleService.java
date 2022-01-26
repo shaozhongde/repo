@@ -11,6 +11,16 @@ public interface RoleService {
     public List<Role> findAllRole(Role role);
 
     /*
+    * 添加角色
+    * */
+    public void saveRole(Role role);
+
+    /*
+    * 更新角色
+    * */
+    public void updateRole(Role role);
+
+    /*
      * 根据角色ID查询该角色关联的菜单信息ID
      * */
     public List<Integer> findMenuByRoleId(Integer roleid);
@@ -35,4 +45,13 @@ public interface RoleService {
      * */
     public List<Resource> findResourceByRoleId(Integer roleId);
 
+    /*
+    * 获取角色拥有的资源分类数据+获取角色拥有的资源数据
+    * */
+    public List<ResourceCategory> findRoleHaveResource(int id);
+
+    /*
+    * 为角色分配资源(先删除角色和资源的关联信息)
+    * */
+    public void roleContextResource(RoleResourceVo roleResourceVo);
 }

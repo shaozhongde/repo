@@ -12,6 +12,50 @@
         </where>
     </select>
 
+    <!--添加角色-->
+    <insert id="saveRole" parameterType="com.lagou.domain.Role">
+        insert into Roles values(null,#{code},#{name},#{description},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+
+    <!--更新角色-->
+    <update id="updateRole" parameterType="com.lagou.domain.Role" >
+        update Roles
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+
+            <if test="createdTime != null">
+                created_time=#{createdTime},
+            </if>
+
+            <if test="updatedTime != null">
+                updated_time=#{updatedTime},
+            </if>
+
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+
+            <if test="updatedBy != updatedBy">
+                updated_by=#{updatedBy},
+            </if>
+
+        </trim>
+
+        <where>
+            <if test="id != null and id != '' ">id = #{id}</if>
+        </where>
+    </update>
+
     <!--根据角色ID查询该角色关联的菜单信息ID-->
     <select id="findMenuByRoleId" parameterType="int" resultType="int">
         SELECT m.id
@@ -68,5 +112,43 @@
                         INNER JOIN roles ro ON ro.id=rr.role_id
         WHERE ro.id =#{roleId}
     </select>
+
+    <!-- 获取角色拥有的资源分类数据   -->
+    <resultMap id="ResourceCate" type="com.lagou.domain.ResourceCategory">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="findRoleHaveResourceCate" parameterType="int" resultMap="ResourceCate">
+        SELECT
+            rc.id,
+            rc.name
+        FROM resource_category	rc LEFT JOIN resource r ON rc.id = r.category_id
+                                     LEFT JOIN role_resource_relation rrr ON r.id = rrr.resource_id LEFT JOIN
+             roles rs ON rrr.role_id = rs.id WHERE rs.id = #{id} GROUP BY  rc.id;
+    </select>
+
+    <!--  获取角色拥有的资源数据  -->
+    <select id="findRoleHaveResource" parameterType="int" resultType="com.lagou.domain.Resource">
+        SELECT
+            rc.`id`,
+            rc.`name`,
+            rc.`category_id`,
+            rc.`url`,
+            rc.`description`
+        FROM roles r  LEFT JOIN role_resource_relation rrr ON r.`id` = rrr.`role_id`
+                      LEFT JOIN resource rc ON rrr.`resource_id` = rc.`id` WHERE r.id = #{id};
+    </select>
+
+    <!--  删除角色关联的资源数据 -->
+    <delete id="deleteRoleContextResource" parameterType="int">
+        DELETE FROM role_resource_relation WHERE role_id = #{id};
+    </delete>
+
+    <!-- 为角色分配资源   -->
+    <insert id="roleContextResource" parameterType="com.lagou.domain.RoleResourceRelation">
+        INSERT INTO role_resource_relation
+        VALUES(NULL,#{resourceId},#{roleId},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
 
 </mapper>

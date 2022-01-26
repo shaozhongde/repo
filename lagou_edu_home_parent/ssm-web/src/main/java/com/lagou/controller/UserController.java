@@ -109,7 +109,7 @@ public class UserController {
         //3.判断token是否一致
         if(header_token.equals(session_token)) {
             //获取用户ID
-            Integer user_id = (Integer) request.getSession().getAttribute("user_id");
+            int user_id = (Integer) request.getSession().getAttribute("user_id");
             //调用service 进行菜单信息查询
             ResponseResult userPermissions = userService.getUserPermissions(user_id);
             return userPermissions;

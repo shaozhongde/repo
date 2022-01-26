@@ -53,13 +53,21 @@
     <!--2.根据角色ID查询角色所拥有的顶级菜单（-1）-->
     <select id="findParentMenuByRoleId" parameterType="java.util.List" resultType="com.lagou.domain.Menu">
         SELECT
-        DISTINCT m.*
-        FROM roles r INNER JOIN role_menu_relation rm ON r.id= rm.role_id
+        m.id,
+        m.name,
+        m.parent_id,
+        m.order_num,
+        m.icon,
+        m.shown,
+        m.level,
+        m.href
+        FROM roles r INNER JOIN role_menu_relation rm ON r.`id` = rm.role_id
         INNER JOIN menu m ON rm.menu_id = m.id
-        WHERE m.parent_id = -1 AND r.id IN
-        <foreach collection="list" item="item" open="(" separator="," close=")">
+        WHERE m.parent_id = -1 AND r.id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>
+        GROUP BY m.id;
     </select>
     
     <!--3.根据PID查询子菜单信息-->
@@ -77,4 +85,5 @@
             #{item}
         </foreach>
     </select>
+
 </mapper>

@@ -19,4 +19,14 @@ public interface MenuService {
     * 回显所有的menu信息(根据ID)
     * */
     public Menu findMenuById(Integer id);
+
+    /*
+    * 新增菜单信息
+    * */
+    public void saveMenu(Menu menu);
+
+    /*
+    * 修改菜单信息
+    * */
+    public void updateMenu(Menu menu);
 }

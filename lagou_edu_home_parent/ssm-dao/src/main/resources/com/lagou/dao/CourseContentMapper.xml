@@ -91,4 +91,49 @@
     <update id="updateSectionStatus" parameterType="com.lagou.domain.CourseSection">
         UPDATE course_section set status = #{status}, update_time = #{updateTime} WHERE id = #{id}
     </update>
+
+    <!--添加课时-->
+    <insert id="saveLesson" parameterType="com.lagou.domain.CourseLesson">
+        INSERT INTO course_lesson (
+            id,course_id,
+            section_id,
+            theme,
+            duration,
+            is_free,
+            order_num,
+            create_time,
+            update_time
+        )VALUES(#{id},#{courseId},#{sectionId},#{theme},#{duration},#{isFree},
+                #{orderNum},#{createTime},#{updateTime});
+    </insert>
+
+    <!--修改课时-->
+    <update id="updateLesson" parameterType="com.lagou.domain.CourseLesson">
+        UPDATE course_lesson
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="theme != null and theme != ''">
+                theme = #{theme},
+            </if>
+
+            <if test="duration != null">
+                duration = #{duration},
+            </if>
+
+            <if test="isFree != null and isFree != '' or isFree == 0">
+                is_free = #{isFree},
+            </if>
+
+            <if test="orderNum != null and orderNum != '' or orderNum == 0">
+                order_num = #{orderNum},
+            </if>
+
+            <if test="updateTime != null">
+                update_time=#{updateTime}
+            </if>
+
+        </trim>
+        <where>
+            <if test="id != null and id != '' ">id = #{id}</if>
+        </where>
+    </update>
 </mapper>

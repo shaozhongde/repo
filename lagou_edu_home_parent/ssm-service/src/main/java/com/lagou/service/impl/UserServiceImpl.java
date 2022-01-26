@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
         //1.根据用户ID查询关联的角色信息
         List<Role> roleList = userMapper.findUserRelationRoleById(userid);
         //2.获取角色ID 保存到List集合中
-        ArrayList<Integer> roleIds = new ArrayList<>();
+        List<Integer> roleIds = new ArrayList<>();
         for (Role role : roleList) {
             roleIds.add(role.getId());
         }
@@ -111,7 +111,11 @@ public class UserServiceImpl implements UserService {
         //4.查询封装父菜单关联的子菜单
         for (Menu menu : parentMenu) {
             List<Menu> subMenu = userMapper.findSubMenuByPid(menu.getId());
-            menu.setSubMenuList(subMenu);
+            if(subMenu.size()>0) {
+                menu.setSubMenuList(subMenu);
+            }else{
+                menu.setSubMenuList(null);
+            }
         }
         //5.获取资源信息
         List<Resource> resourceList = userMapper.findResourceByRoleId(roleIds);

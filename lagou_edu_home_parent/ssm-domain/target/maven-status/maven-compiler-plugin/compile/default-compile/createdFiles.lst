@@ -4,6 +4,7 @@ com\lagou\domain\Teacher.class
 com\lagou\domain\Role_menu_relation.class
 com\lagou\domain\User.class
 com\lagou\domain\PromotionAdVo.class
+com\lagou\domain\RoleResourceRelation.class
 com\lagou\domain\Test.class
 com\lagou\domain\ResponseResult.class
 com\lagou\domain\CourseVo.class
@@ -16,6 +17,7 @@ com\lagou\domain\CourseLesson.class
 com\lagou\domain\UserVo.class
 com\lagou\domain\User_Role_relation.class
 com\lagou\domain\PromotionSpace.class
+com\lagou\domain\RoleResourceVo.class
 com\lagou\domain\CourseMedia.class
 com\lagou\domain\ResourceCategory.class
 com\lagou\domain\MenuVo.class

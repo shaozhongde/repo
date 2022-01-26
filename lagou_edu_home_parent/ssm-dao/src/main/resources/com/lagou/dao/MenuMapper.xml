@@ -34,4 +34,77 @@
     <select id="findMenuById" parameterType="int" resultType="com.lagou.domain.Menu">
         select * from menu where id=#{id}
     </select>
+
+    <!--  新增菜单信息  -->
+    <insert id="saveMenu" parameterType="com.lagou.domain.Menu">
+        INSERT INTO menu(
+            NAME,
+            href,
+            parent_id,
+            description,
+            icon,
+            shown,
+            order_num,
+            level,
+            created_time,
+            updated_time,
+            created_by,
+            updated_by
+        )VALUES(#{name},#{href},#{parentId},#{description},#{icon},#{shown},
+                #{orderNum},#{level},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+
+    <!--  修改菜单操作  -->
+    <update id="updateMenu" parameterType="com.lagou.domain.Menu">
+        UPDATE menu
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+
+            <if test="href != null and href != ''">
+                href = #{href},
+            </if>
+
+            <if test="parentId != null and parentId != ''">
+                parent_id = #{parentId},
+            </if>
+
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+
+            <if test="shown != null and shown != ''">
+                shown = #{shown},
+            </if>
+
+            <if test="orderNum != null and orderNum != ''">
+                order_num = #{orderNum},
+            </if>
+
+            <if test="createdTime != null ">
+                created_time = #{createdTime},
+            </if>
+
+            <if test="updatedTime != null ">
+                updated_time = #{updatedTime},
+            </if>
+
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
+
+            <if test="updatedBy != null and updatedBy != ''">
+                updated_by = #{updatedBy},
+            </if>
+        </trim>
+
+        <where>
+            <if test="id != null and id != '' ">id = #{id}</if>
+        </where>
+    </update>
 </mapper>

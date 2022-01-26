@@ -28,6 +28,27 @@ public class PromotionAdServiceImpl implements PromotionAdService {
     }
 
     @Override
+    public PromotionAd findPromotionAdById(int id) {
+        PromotionAd promotionAd = promotionAdMapper.findPromotionAdById(id);
+        return promotionAd;
+    }
+
+    @Override
+    public void savePromotionAd(PromotionAd promotionAd) {
+        Date date = new Date();
+        promotionAd.setCreateTime(date);
+        promotionAd.setUpdateTime(date);
+        promotionAdMapper.savePromotionAd(promotionAd);
+    }
+
+    @Override
+    public void updatePromotionAd(PromotionAd promotionAd) {
+        Date date = new Date();
+        promotionAd.setUpdateTime(date);
+        promotionAdMapper.updatePromotionAd(promotionAd);
+    }
+
+    @Override
     public void updatePromotionAdStatus(int id, int status) {
         //封装数据
         PromotionAd promotionAd=new PromotionAd();

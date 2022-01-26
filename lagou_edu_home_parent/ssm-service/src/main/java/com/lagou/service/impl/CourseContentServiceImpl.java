@@ -2,6 +2,7 @@ package com.lagou.service.impl;
 
 import com.lagou.dao.CourseContentMapper;
 import com.lagou.domain.Course;
+import com.lagou.domain.CourseLesson;
 import com.lagou.domain.CourseSection;
 import com.lagou.service.CourseContentService;
 import com.lagou.service.CourseService;
@@ -58,5 +59,24 @@ public class CourseContentServiceImpl implements CourseContentService {
 
         //调用mapper
         courseContentMapper.updateSectionStatus(courseSection);
+    }
+
+    @Override
+    public void saveLesson(CourseLesson lesson) {
+        //补全信息
+        Date date = new Date();
+        lesson.setCreateTime(date);
+        lesson.setUpdateTime(date);
+
+        courseContentMapper.saveLesson(lesson);
+    }
+
+    @Override
+    public void updateLesson(CourseLesson lesson) {
+        //补全信息
+        Date date = new Date();
+        lesson.setUpdateTime(date);
+
+        courseContentMapper.updateLesson(lesson);
     }
 }

@@ -2,6 +2,7 @@ package com.lagou.dao;
 
 
 import com.lagou.domain.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -56,4 +57,5 @@ public interface UserMapper {
     * 4.获取用户拥有的资源权限信息
     * */
     public List<Resource> findResourceByRoleId(List<Integer> ids);
+
 }

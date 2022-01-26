@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 @RestController
@@ -81,6 +82,34 @@ public class PromotionAdController {
     }
 
     /*
+    * 根据id查询广告信息
+    * */
+    @RequestMapping("/findPromotionAdById")
+    public ResponseResult findPromotionAdById(int id){
+        PromotionAd promotionAd = promotionAdService.findPromotionAdById(id);
+        ResponseResult responseResult = new ResponseResult(true, 200, "查询广告信息", promotionAd);
+        return responseResult;
+    }
+
+    /*
+    * 新增或更新广告位置
+    * */
+    @RequestMapping("/saveOrUpdatePromotionAd")
+    public ResponseResult saveOrUpdatePromotionAd(@RequestBody PromotionAd promotionAd){
+        if (promotionAd.getId() == null) {
+            //新增操作
+            promotionAdService.savePromotionAd(promotionAd);
+            ResponseResult responseResult = new ResponseResult(true, 200, "新增广告信息成功", null);
+            return responseResult;
+        } else {
+            //修改操作
+            promotionAdService.updatePromotionAd(promotionAd);
+            ResponseResult responseResult = new ResponseResult(true, 200, "修改广告信息-成功", null);
+            return responseResult;
+        }
+    }
+
+    /*
     * 广告动态上下线
     * */
     @RequestMapping("/updatePromotionAdStatus")
@@ -89,5 +118,4 @@ public class PromotionAdController {
         ResponseResult responseResult = new ResponseResult(true, 200, "广告动态上下线成功", null);
         return responseResult;
     }
-
 }

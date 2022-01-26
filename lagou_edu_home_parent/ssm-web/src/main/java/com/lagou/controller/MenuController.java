@@ -5,6 +5,7 @@ import com.lagou.domain.ResponseResult;
 import com.lagou.service.MenuService;
 import com.mysql.fabric.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +59,24 @@ public class MenuController {
             map.put("parentMenuList",subMenuListByPid);
 
             ResponseResult responseResult = new ResponseResult(true, 200, "修改回显成功", map);
+            return responseResult;
+        }
+    }
+
+    /**
+     * 新建&修改菜单
+     * */
+    @RequestMapping("/saveOrUpdateMenu")
+    public ResponseResult saveOrUpdateMenu(@RequestBody Menu menu){
+        if(menu.getId() != null){
+            //修改操作
+            menuService.updateMenu(menu);
+            ResponseResult responseResult = new ResponseResult(true,200,"响应成功",null);
+            return responseResult;
+        }else {
+            //新增操作
+            menuService.saveMenu(menu);
+            ResponseResult responseResult = new ResponseResult(true, 200, "响应成功", null);
             return responseResult;
         }
     }

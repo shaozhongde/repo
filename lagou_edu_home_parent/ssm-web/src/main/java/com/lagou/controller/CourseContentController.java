@@ -1,6 +1,7 @@
 package com.lagou.controller;
 
 import com.lagou.domain.Course;
+import com.lagou.domain.CourseLesson;
 import com.lagou.domain.CourseSection;
 import com.lagou.domain.ResponseResult;
 import com.lagou.service.CourseContentService;
@@ -66,5 +67,23 @@ public class CourseContentController {
         map.put("status",status);
         ResponseResult responseResult = new ResponseResult(true, 200, "修改章节状态成功", map);
         return responseResult;
+    }
+
+    /*
+    * 保存%修改课时
+    * */
+    @RequestMapping("/saveOrUpdateLesson")
+    public ResponseResult saveOrUpdateLesson(@RequestBody CourseLesson lesson){
+        if(lesson.getId()==null){
+            //保存操作
+            courseContentService.saveLesson(lesson);
+            ResponseResult responseResult = new ResponseResult(true, 200, "保存课时成功", null);
+            return responseResult;
+        }else{
+            //修改课时
+            courseContentService.updateLesson(lesson);
+            ResponseResult responseResult = new ResponseResult(true, 200, "修改课时成功", null);
+            return responseResult;
+        }
     }
 }

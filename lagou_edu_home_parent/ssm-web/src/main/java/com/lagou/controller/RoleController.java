@@ -6,6 +6,7 @@ import com.lagou.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -31,6 +32,23 @@ public class RoleController {
         return responseResult;
     }
 
+    /*
+    * 添加角色+更新角色
+    * */
+    @RequestMapping("/saveOrUpdateRole")
+    public ResponseResult saveOrUpdateRole(@RequestBody Role role){
+        if(role.getId()==null){
+            //添加角色
+            roleService.saveRole(role);
+            ResponseResult responseResult = new ResponseResult(true, 200, "添加角色成功", null);
+            return responseResult;
+        }else{
+            //更新成功
+            roleService.updateRole(role);
+            ResponseResult responseResult = new ResponseResult(true, 200, "更新角色成功", null);
+            return responseResult;
+        }
+    }
     /*
      * 查询所有父子菜单信息
      * */
@@ -81,11 +99,25 @@ public class RoleController {
     }
 
     /*
-    * 查询当前角色拥有的资源分类信息+查询当前角色拥有的资源信息
+    * 获取当前角色拥有的 资源信息(包括资源分类以及资源信息)
     * */
     @RequestMapping("/findResourceListByRoleId")
-    public ResponseResult findResourceListByRoleId(Integer roleId){
-        List<ResourceCategory> resourceCategoryByRoleId = roleService.findResourceCategoryByRoleId(roleId);
-        return new ResponseResult(true,200,"响应成功",resourceCategoryByRoleId);
+    public ResponseResult findResourceListByRoleId(int roleId){
+
+        //1.获取角色拥有的资源分类信息
+        List<ResourceCategory> categoryList = roleService.findRoleHaveResource(roleId);
+
+        ResponseResult responseResult = new ResponseResult(true,200,"响应成功",categoryList);
+        return responseResult;
+    }
+
+    /*
+    * 角色分配资源(先删除角色和资源的关联信息)
+    * */
+    @RequestMapping("/roleContextResource")
+    public ResponseResult roleContextResource(@RequestBody RoleResourceVo roleResourceVo){
+        roleService.roleContextResource(roleResourceVo);
+        ResponseResult responseResult = new ResponseResult(true,200,"响应成功",null);
+        return responseResult;
     }
 }
